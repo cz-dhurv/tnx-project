@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -15,8 +13,7 @@ import {
   BarChart,
   Bar,
   ReferenceLine,
-  Cell,
-  Legend
+  Cell
 } from "recharts";
 import {
   LineChart as LineChartIcon,

@@ -1,20 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   CalendarRange,
   Sparkles,
   CheckCircle,
-  Plus,
-  Trash2,
-  ListTodo,
   Loader2,
   CalendarCheck,
-  TrendingUp,
-  Clock,
-  ArrowRight,
-  BookOpen
+  TrendingUp
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -285,7 +279,7 @@ export default function SmartStudyPlanner() {
             </div>
           ) : (
             <div className="space-y-6">
-              {roadmap.map((week, weekIdx) => {
+              {roadmap.map((week) => {
                 const finishedCount = week.tasks.filter((t) => t.completed).length;
                 const progress = week.tasks.length > 0 ? Math.round((finishedCount / week.tasks.length) * 100) : 0;
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Mail,
   Sparkles,
@@ -9,9 +9,7 @@ import {
   Check,
   RotateCw,
   Loader2,
-  Send,
-  User,
-  HeartHandshake
+  Send
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

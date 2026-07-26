@@ -17,9 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   GraduationCap,
-  Sparkles,
   Settings,
-  HelpCircle,
   LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";

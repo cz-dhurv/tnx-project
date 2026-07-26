@@ -4,14 +4,9 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   UserCheck,
-  Plus,
-  Minus,
   AlertTriangle,
   CheckCircle,
-  PlusCircle,
-  HelpCircle,
-  TrendingUp,
-  Award
+  PlusCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Gamified level progress states
-  const [streak, setStreak] = useState(5);
+  const [streak] = useState(5);
   const [level, setLevel] = useState(3);
   const [xp, setXp] = useState(420);
 

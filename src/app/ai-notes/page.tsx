@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   FileText,
   Sparkles,
   Clipboard,
-  Download,
-  Plus,
   Trash2,
   FolderOpen,
   Loader2,

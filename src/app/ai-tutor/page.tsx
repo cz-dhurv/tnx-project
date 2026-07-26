@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  MessageSquareText,
   UploadCloud,
-  FileText,
   Send,
-  Sparkles,
   Bot,
   User,
   GraduationCap,
@@ -62,6 +59,7 @@ export default function AITutor() {
     if (!text.trim()) return;
 
     const userMsg: Message = {
+      // eslint-disable-next-line react-hooks/purity
       id: Date.now(),
       sender: "user",
       text: text,
