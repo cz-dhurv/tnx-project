@@ -1,5 +1,7 @@
 # CampusAI
 
+[![Live Preview](https://img.shields.io/badge/Live_Preview-View_App-blue?style=for-the-badge)](https://boisterous-liger-88f3ce.netlify.app/dashboard)
+
 CampusAI is a modern web application built to enhance the campus experience using Artificial Intelligence. Built with Next.js and React, it features a highly responsive and animated user interface.
 
 ## 🚀 Features
