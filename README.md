@@ -1,8 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CampusAI
 
-## Getting Started
+CampusAI is a modern web application built to enhance the campus experience using Artificial Intelligence. Built with Next.js and React, it features a highly responsive and animated user interface.
 
-First, run the development server:
+## 🚀 Features
+
+- **Next.js 15 (App Router)**: Blazing fast server-side rendering and static generation.
+- **Modern UI**: Styled with Tailwind CSS and `tailwind-merge` for robust utility class management.
+- **Animations**: Fluid and interactive animations powered by Framer Motion.
+- **Data Visualization**: Rich, interactive charts and graphs using Recharts.
+- **Iconography**: Beautiful, consistent icons provided by Lucide React.
+- **Dark Mode**: Built-in support for seamless dark/light theme switching using `next-themes`.
+- **TypeScript**: End-to-end type safety.
+
+## 🛠️ Tech Stack
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Recharts](https://recharts.org/)
+- [Lucide React](https://lucide.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+## 📦 Getting Started
+
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +42,17 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+##  scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the app for production.
+- `npm run start`: Starts the production server.
+- `npm run lint`: Lints the code using ESLint.
 
-## Learn More
+## 📄 License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
