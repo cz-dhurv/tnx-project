@@ -1,0 +1,39 @@
+{
+  "anchor_schema_version": 1,
+  "oobo_version": "2.0.0",
+  "commit_hash": "63bf7bfb86879fe39bba1afc909a55a9b912c0d4",
+  "branch": "feature/voice-assistant",
+  "author": "cz-dhurv <dhruvkr209@example.com>",
+  "author_type": "automated",
+  "contributors": [
+    {
+      "name": "cz-dhurv <dhruvkr209@example.com>",
+      "role": "human"
+    }
+  ],
+  "committed_at": 1789548536,
+  "message": "feat(voice): complete voice assistant integration",
+  "files_changed": [
+    ".gitignore"
+  ],
+  "added": 4,
+  "deleted": 0,
+  "file_changes": [
+    {
+      "path": ".gitignore",
+      "added": 4,
+      "deleted": 0,
+      "attribution": "human"
+    }
+  ],
+  "ai_added": 0,
+  "ai_deleted": 0,
+  "human_added": 4,
+  "human_deleted": 0,
+  "ai_percentage": 0.0,
+  "session_ids": [],
+  "transparency_mode": "on",
+  "coverage": {
+    "recorded_at": 1789550560
+  }
+}
