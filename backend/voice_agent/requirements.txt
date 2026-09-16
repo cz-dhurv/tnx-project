@@ -1,0 +1,10 @@
+# Voice Agent Worker Dependencies
+# Separate from the main backend — this is a long-running LiveKit worker process.
+
+livekit-agents[deepgram,google,silero,turn-detector]~=1.4
+livekit-murf>=0.1.1
+livekit-plugins-noise-cancellation~=0.2
+livekit-api>=0.8
+python-dotenv
+httpx
+numpy
