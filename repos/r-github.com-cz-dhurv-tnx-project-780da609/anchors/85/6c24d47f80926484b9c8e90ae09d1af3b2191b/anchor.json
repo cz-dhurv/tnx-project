@@ -1,0 +1,228 @@
+{
+  "anchor_schema_version": 1,
+  "oobo_version": "2.0.0",
+  "commit_hash": "856c24d47f80926484b9c8e90ae09d1af3b2191b",
+  "branch": "feature/voice-assistant",
+  "author": "cz-dhurv <dhruvkr209@example.com>",
+  "author_type": "automated",
+  "contributors": [
+    {
+      "name": "cz-dhurv <dhruvkr209@example.com>",
+      "role": "human"
+    }
+  ],
+  "committed_at": 1789548489,
+  "message": "fix: remove pycache from tracking and fix TypeScript types",
+  "files_changed": [
+    "backend/__pycache__/config.cpython-312.pyc",
+    "backend/__pycache__/main.cpython-312.pyc",
+    "backend/api/__pycache__/__init__.cpython-312.pyc",
+    "backend/api/__pycache__/chat.cpython-312.pyc",
+    "backend/api/__pycache__/documents.cpython-312.pyc",
+    "backend/api/__pycache__/health.cpython-312.pyc",
+    "backend/models/__pycache__/__init__.cpython-312.pyc",
+    "backend/models/__pycache__/database.cpython-312.pyc",
+    "backend/models/__pycache__/schemas.cpython-312.pyc",
+    "backend/observability/__pycache__/__init__.cpython-312.pyc",
+    "backend/observability/__pycache__/logger.cpython-312.pyc",
+    "backend/prompts/__pycache__/__init__.cpython-312.pyc",
+    "backend/prompts/__pycache__/system.cpython-312.pyc",
+    "backend/providers/__pycache__/__init__.cpython-312.pyc",
+    "backend/providers/__pycache__/base.cpython-312.pyc",
+    "backend/providers/__pycache__/gemini.cpython-312.pyc",
+    "backend/repositories/__pycache__/__init__.cpython-312.pyc",
+    "backend/repositories/__pycache__/db_repo.cpython-312.pyc",
+    "backend/repositories/__pycache__/vector_repo.cpython-312.pyc",
+    "backend/security/__pycache__/__init__.cpython-312.pyc",
+    "backend/security/__pycache__/validation.cpython-312.pyc",
+    "backend/services/__pycache__/__init__.cpython-312.pyc",
+    "backend/services/__pycache__/chat_service.cpython-312.pyc",
+    "backend/services/__pycache__/chunking_service.cpython-312.pyc",
+    "backend/services/__pycache__/context_builder.cpython-312.pyc",
+    "backend/services/__pycache__/document_service.cpython-312.pyc",
+    "backend/services/__pycache__/query_processor.cpython-312.pyc",
+    "src/components/voice/VoiceButton.tsx"
+  ],
+  "added": 3,
+  "deleted": 4,
+  "file_changes": [
+    {
+      "path": "backend/__pycache__/config.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/__pycache__/main.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/chat.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/documents.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/health.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__pycache__/database.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__pycache__/schemas.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/observability/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/observability/__pycache__/logger.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/prompts/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/prompts/__pycache__/system.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__pycache__/base.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__pycache__/gemini.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__pycache__/db_repo.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__pycache__/vector_repo.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/security/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/security/__pycache__/validation.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/chat_service.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/chunking_service.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/context_builder.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/document_service.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/query_processor.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "src/components/voice/VoiceButton.tsx",
+      "added": 3,
+      "deleted": 4,
+      "attribution": "human"
+    }
+  ],
+  "ai_added": 0,
+  "ai_deleted": 0,
+  "human_added": 3,
+  "human_deleted": 4,
+  "ai_percentage": 0.0,
+  "session_ids": [],
+  "transparency_mode": "on",
+  "coverage": {
+    "recorded_at": 1789548550
+  }
+}
