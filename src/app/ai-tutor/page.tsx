@@ -21,8 +21,11 @@ import {
   RefreshCw,
   FileWarning,
   X,
+  Phone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { VoiceButton } from "@/components/voice/VoiceButton";
+import { CallTutorModal } from "@/components/voice/CallTutorModal";
 
 // ── Types ─────────────────────────────────────────────
 
@@ -78,6 +81,9 @@ export default function AITutor() {
   // Topics
   const [topics, setTopics] = useState<string[]>([]);
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
+
+  // Voice state
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -597,6 +603,14 @@ export default function AITutor() {
                 : activeTopic}
             </div>
           )}
+          {/* Voice Call Button */}
+          <button
+            onClick={() => setIsCallModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-500 text-xs font-medium hover:bg-purple-500/20 transition-all cursor-pointer"
+          >
+            <Phone className="w-3.5 h-3.5" />
+            Call Tutor
+          </button>
         </div>
 
         {/* Chat Messages */}
@@ -719,30 +733,50 @@ export default function AITutor() {
 
         {/* Input Bar */}
         <div className="p-4 border-t border-border/40 bg-card">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSend(inputText);
-            }}
-            className="flex gap-2.5"
-          >
+          <div className="flex gap-2.5">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend(inputText);
+                }
+              }}
               placeholder="Ask anything about the lecture material, code snippets, or definitions..."
               className="flex-1 bg-muted/40 text-sm rounded-xl px-4 py-3 border border-border/40 focus:border-indigo-500/40 focus:ring-2 focus:ring-indigo-500/10 transition-all outline-none"
               disabled={isTyping}
             />
+            <VoiceButton
+              onTranscript={(entry) => {
+                if (entry.isFinal) {
+                  const newMsg: Message = {
+                    id: `voice-${Date.now()}`,
+                    sender: entry.speaker === "user" ? "user" : "ai",
+                    text: entry.text,
+                    time: entry.timestamp,
+                  };
+                  setMessages((prev) => [...prev, newMsg]);
+                }
+              }}
+            />
             <button
-              type="submit"
+              type="button"
+              onClick={() => handleSend(inputText)}
               disabled={!inputText.trim() || isTyping}
               className="px-4.5 bg-primary text-primary-foreground hover:bg-primary/95 disabled:opacity-50 font-semibold text-sm rounded-xl transition-all shadow flex items-center justify-center cursor-pointer"
             >
               <Send className="w-4 h-4" />
             </button>
-          </form>
+          </div>
         </div>
+
+        {/* Call Tutor Modal */}
+        <CallTutorModal
+          isOpen={isCallModalOpen}
+          onClose={() => setIsCallModalOpen(false)}
+        />
       </div>
     </motion.div>
   );

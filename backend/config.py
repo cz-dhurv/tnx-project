@@ -30,6 +30,20 @@ class Settings(BaseSettings):
     # --- Upload ---
     max_file_size_mb: int = Field(25, description="Max upload file size in MB")
 
+    # --- Voice / LiveKit ---
+    livekit_url: str = Field("", description="LiveKit server URL")
+    livekit_api_key: str = Field("", description="LiveKit API key")
+    livekit_api_secret: str = Field("", description="LiveKit API secret")
+
+    # --- Voice / Deepgram STT ---
+    deepgram_api_key: str = Field("", description="Deepgram API key")
+
+    # --- Voice / Murf TTS ---
+    murf_api_key: str = Field("", description="Murf API key")
+
+    # --- Voice / Outbound Calling ---
+    livekit_sip_outbound_trunk_id: str = Field("", description="LiveKit SIP outbound trunk ID")
+
     # --- Server ---
     backend_port: int = Field(8000, description="Backend server port")
     cors_origins: str = Field("http://localhost:3000", description="Comma-separated CORS origins")

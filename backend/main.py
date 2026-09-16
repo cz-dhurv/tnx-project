@@ -14,7 +14,7 @@ from repositories.vector_repo import VectorRepository
 from repositories.db_repo import DBRepository
 from services.document_service import DocumentService
 from services.chat_service import ChatService
-from api import health, documents, chat
+from api import health, documents, chat, voice, internal
 from observability.logger import get_logger
 
 logger = get_logger(__name__)
@@ -78,6 +78,10 @@ async def lifespan(app: FastAPI):
         model_name=settings.gemini_model,
     )
 
+    # ── Expose for voice endpoints ──
+    app.state.embedder = gemini
+    app.state.config = settings
+
     logger.info("🚀 CampusAI Backend started successfully")
 
     yield  # App runs here
@@ -109,3 +113,5 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(documents.router)
 app.include_router(chat.router)
+app.include_router(voice.router)
+app.include_router(internal.router)

@@ -53,7 +53,7 @@ async def search_in_process(
     """
     try:
         # Embed the query
-        query_embedding = await embedder.embed(query)
+        query_embedding = await embedder.embed_query(query)
         if isinstance(query_embedding, np.ndarray):
             query_embedding = query_embedding.tolist()
 

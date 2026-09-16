@@ -23,3 +23,6 @@ aiosqlite==0.21.0
 aiofiles==24.1.0
 tiktoken==0.9.0
 numpy>=1.26.0
+
+# Voice (token minting + SIP)
+livekit-api>=0.8
