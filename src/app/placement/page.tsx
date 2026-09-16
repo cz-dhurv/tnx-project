@@ -18,7 +18,9 @@ import {
   Check,
   XCircle,
   GitCompare,
-  Server
+  Server,
+  Plus,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import initialData from "@/lib/data/resume_matcher_data.json";
@@ -76,6 +78,19 @@ export default function PlacementHub() {
   // --- Comparison State ---
   const [candidateAId, setCandidateAId] = useState<string>(initialData.candidates[0].id);
   const [candidateBId, setCandidateBId] = useState<string>(initialData.candidates[1].id);
+
+  // --- Post New Internship State ---
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newInternship, setNewInternship] = useState({
+    role: "",
+    company: "",
+    work_mode: "Hybrid",
+    location: "",
+    salary: "",
+    required_skills: "",
+    summary: ""
+  });
+  const [postSuccessMessage, setPostSuccessMessage] = useState("");
 
   // Check Python FastAPI backend connection on mount
   useEffect(() => {
@@ -182,6 +197,54 @@ export default function PlacementHub() {
     } finally {
       setIsMatchingJob(false);
     }
+  };
+
+  // Add user-created custom internship
+  const handleCreateInternship = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newInternship.role.trim() || !newInternship.company.trim()) return;
+
+    const skillsArray = newInternship.required_skills
+      ? newInternship.required_skills.split(",").map((s) => s.trim()).filter(Boolean)
+      : ["JavaScript", "React", "Problem Solving"];
+
+    const createdJob: JobDescription = {
+      id: `jd_custom_${Date.now()}`,
+      role: newInternship.role.trim(),
+      company: newInternship.company.trim(),
+      summary: newInternship.summary.trim() || `Exciting internship opening at ${newInternship.company.trim()} for campus students.`,
+      required_skills: skillsArray,
+      preferred_skills: ["Git", "Team Collaboration"],
+      minimum_experience: 1,
+      education_requirements: ["Pursuing Bachelor's or Master's in CS / Engineering"],
+      responsibilities: [
+        "Design, build and test software components that scale efficiently.",
+        "Collaborate with agile engineering squads and participate in sprint reviews."
+      ],
+      employment_type: "Internship",
+      location: newInternship.location.trim() || "Remote / Hybrid",
+      work_mode: newInternship.work_mode,
+      salary: newInternship.salary.trim() || "Competitive Stipend",
+      technologies: skillsArray,
+      addedOn: "Today",
+      totalCandidates: 1,
+      shortlisted: 1,
+    };
+
+    setJobs((prev) => [createdJob, ...prev]);
+    setSelectedJobId(createdJob.id);
+    setIsAddModalOpen(false);
+    setNewInternship({
+      role: "",
+      company: "",
+      work_mode: "Hybrid",
+      location: "",
+      salary: "",
+      required_skills: "",
+      summary: ""
+    });
+    setPostSuccessMessage(`Successfully posted "${createdJob.role}" at ${createdJob.company}!`);
+    setTimeout(() => setPostSuccessMessage(""), 4500);
   };
 
 
@@ -911,83 +974,296 @@ export default function PlacementHub() {
         {/* ===================== TAB 5: CAMPUS INTERNSHIPS ===================== */}
         {activeTab === "jobs" && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            {/* Header & Post Action */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h3 className="text-sm font-bold text-foreground">Matched Internships & Campus Drives</h3>
-                <p className="text-[11px] text-muted-foreground">Compatible roles matching your evaluated CV credentials.</p>
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                  <Building className="w-4 h-4 text-indigo-400" />
+                  Matched Internships & Campus Drives
+                </h3>
+                <p className="text-[11px] text-muted-foreground">
+                  Explore opportunities or post your own custom campus opening to screen student CVs.
+                </p>
               </div>
-              <div className="flex items-center gap-1.5 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] font-semibold text-indigo-400">
-                <TrendingUp className="w-3.5 h-3.5" />
-                Updated Real-Time
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobs.map((job) => (
-                <div
-                  key={job.id}
-                  className="p-5 rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm shadow-sm flex flex-col justify-between hover:shadow-md hover:border-border/80 transition-all duration-300 group"
-                >
-                  <div className="space-y-4">
-                    {/* Header */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold border bg-indigo-500/10 text-indigo-400 border-indigo-500/20">
-                          {(job.company || job.role)[0]}
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-black text-foreground group-hover:text-primary transition-colors">
-                            {job.role}
-                          </h4>
-                          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                            <Building className="w-3 h-3" />
-                            {job.company || "Campus Partner"}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-extrabold text-indigo-400 block">
-                          {job.id === "jd_msft_swe" ? "95%" : job.id === "jd_stripe_fe" ? "88%" : "91%"} Match
-                        </span>
-                        <span className="text-[9px] text-muted-foreground">fit score</span>
-                      </div>
-                    </div>
-
-                    {/* Metadata */}
-                    <div className="space-y-1.5 text-[10px] text-muted-foreground">
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="w-3 h-3" />
-                        {job.location} ({job.work_mode})
-                      </div>
-                      <div className="flex items-center gap-1.5 font-semibold text-foreground/80">
-                        💲 {job.salary}
-                      </div>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {job.required_skills.slice(0, 4).map((skill, idx) => (
-                        <span
-                          key={idx}
-                          className="text-[9px] px-2 py-0.5 rounded-full font-semibold bg-muted/60 border border-border/30 text-muted-foreground"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Apply Action */}
-                  <button
-                    onClick={() => alert(`Applied to ${job.company || "Campus Partner"} for "${job.role}". Submitted evaluated CV!`)}
-                    className="w-full mt-5 py-2 bg-secondary text-secondary-foreground hover:bg-muted text-xs font-semibold rounded-xl flex items-center justify-center gap-1 transition-all cursor-pointer border border-border/20"
-                  >
-                    1-Click Apply with Evaluated CV
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
+              <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] font-semibold text-indigo-400">
+                  <TrendingUp className="w-3.5 h-3.5" />
+                  {jobs.length} Active Openings
                 </div>
-              ))}
+
+                <button
+                  onClick={() => setIsAddModalOpen(true)}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl text-xs font-semibold shadow transition-all cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Post Internship
+                </button>
+              </div>
             </div>
+
+            {/* Success Banner */}
+            {postSuccessMessage && (
+              <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-semibold flex items-center justify-between animate-fadeIn">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4" />
+                  {postSuccessMessage}
+                </span>
+                <span className="text-[10px] text-muted-foreground">Added to Job Matcher & Leaderboard</span>
+              </div>
+            )}
+
+            {/* Internship Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs.map((job) => {
+                const matchScore =
+                  job.id === "jd_msft_swe"
+                    ? 95
+                    : job.id === "jd_stripe_fe"
+                    ? 88
+                    : job.id === "jd_openai_ai"
+                    ? 91
+                    : Math.min(
+                        98,
+                        Math.max(
+                          74,
+                          70 +
+                            job.required_skills.filter((s) =>
+                              evaluatedCandidate.skills.some((es) =>
+                                es.toLowerCase().includes(s.toLowerCase())
+                              )
+                            ).length * 8
+                        )
+                      );
+
+                const isCustom = job.id.startsWith("jd_custom_");
+
+                return (
+                  <div
+                    key={job.id}
+                    className={cn(
+                      "p-5 rounded-2xl border bg-card/60 backdrop-blur-sm shadow-sm flex flex-col justify-between hover:shadow-md hover:border-border/80 transition-all duration-300 group",
+                      isCustom ? "border-indigo-500/30 bg-indigo-500/[0.02]" : "border-border/40"
+                    )}
+                  >
+                    <div className="space-y-4">
+                      {/* Header */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold border bg-indigo-500/10 text-indigo-400 border-indigo-500/20">
+                            {(job.company || job.role)[0]}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <h4 className="text-xs font-black text-foreground group-hover:text-primary transition-colors truncate max-w-[140px]">
+                                {job.role}
+                              </h4>
+                              {isCustom && (
+                                <span className="text-[8px] bg-indigo-500/20 text-indigo-300 font-bold px-1.5 py-0.5 rounded border border-indigo-500/30">
+                                  User Added
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                              <Building className="w-3 h-3" />
+                              {job.company || "Campus Partner"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs font-extrabold text-indigo-400 block">
+                            {matchScore}% Match
+                          </span>
+                          <span className="text-[9px] text-muted-foreground">fit score</span>
+                        </div>
+                      </div>
+
+                      {/* Summary */}
+                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
+                        {job.summary}
+                      </p>
+
+                      {/* Metadata */}
+                      <div className="space-y-1.5 text-[10px] text-muted-foreground">
+                        <div className="flex items-center gap-1.5">
+                          <MapPin className="w-3 h-3" />
+                          {job.location} ({job.work_mode})
+                        </div>
+                        <div className="flex items-center gap-1.5 font-semibold text-foreground/80">
+                          💲 {job.salary}
+                        </div>
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {job.required_skills.slice(0, 4).map((skill, idx) => (
+                          <span
+                            key={idx}
+                            className="text-[9px] px-2 py-0.5 rounded-full font-semibold bg-muted/60 border border-border/30 text-muted-foreground"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Apply Action */}
+                    <button
+                      onClick={() =>
+                        alert(`Applied to ${job.company || "Campus Partner"} for "${job.role}". Submitted evaluated CV!`)
+                      }
+                      className="w-full mt-5 py-2 bg-secondary text-secondary-foreground hover:bg-muted text-xs font-semibold rounded-xl flex items-center justify-center gap-1 transition-all cursor-pointer border border-border/20"
+                    >
+                      1-Click Apply with Evaluated CV
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Post Internship Modal */}
+            <AnimatePresence>
+              {isAddModalOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4"
+                  onClick={() => setIsAddModalOpen(false)}
+                >
+                  <motion.div
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.95, opacity: 0 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-full max-w-lg p-6 bg-card border border-border/60 rounded-2xl shadow-2xl space-y-5"
+                  >
+                    <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                          <Plus className="w-4 h-4" />
+                        </div>
+                        <h3 className="text-sm font-bold text-foreground">Post New Campus Internship</h3>
+                      </div>
+                      <button
+                        onClick={() => setIsAddModalOpen(false)}
+                        className="text-muted-foreground hover:text-foreground p-1 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <form onSubmit={handleCreateInternship} className="space-y-4 text-xs">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                          <label className="text-[11px] font-semibold text-muted-foreground">Role Title *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. AI Systems Intern"
+                            value={newInternship.role}
+                            onChange={(e) => setNewInternship({ ...newInternship, role: e.target.value })}
+                            className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-[11px] font-semibold text-muted-foreground">Company / Lab Name *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Acme AI Labs"
+                            value={newInternship.company}
+                            onChange={(e) => setNewInternship({ ...newInternship, company: e.target.value })}
+                            className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="space-y-1">
+                          <label className="text-[11px] font-semibold text-muted-foreground">Work Mode</label>
+                          <select
+                            value={newInternship.work_mode}
+                            onChange={(e) => setNewInternship({ ...newInternship, work_mode: e.target.value })}
+                            className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50"
+                          >
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Onsite">Onsite</option>
+                          </select>
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-[11px] font-semibold text-muted-foreground">Location</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Bengaluru, India"
+                            value={newInternship.location}
+                            onChange={(e) => setNewInternship({ ...newInternship, location: e.target.value })}
+                            className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-[11px] font-semibold text-muted-foreground">Stipend / Salary</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. $40/hr or ₹30k/mo"
+                            value={newInternship.salary}
+                            onChange={(e) => setNewInternship({ ...newInternship, salary: e.target.value })}
+                            className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-muted-foreground">
+                          Required Skills (comma-separated) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Python, React, PyTorch, Docker"
+                          value={newInternship.required_skills}
+                          onChange={(e) => setNewInternship({ ...newInternship, required_skills: e.target.value })}
+                          className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-muted-foreground">Role Summary / Description</label>
+                        <textarea
+                          rows={2}
+                          placeholder="Brief description of the work and expectations..."
+                          value={newInternship.summary}
+                          onChange={(e) => setNewInternship({ ...newInternship, summary: e.target.value })}
+                          className="w-full bg-muted/30 border border-border/40 rounded-xl px-3 py-2 text-foreground outline-none focus:border-indigo-500/50 resize-none"
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2 pt-2 border-t border-border/30">
+                        <button
+                          type="button"
+                          onClick={() => setIsAddModalOpen(false)}
+                          className="px-4 py-2 bg-secondary text-secondary-foreground hover:bg-muted text-xs font-semibold rounded-xl cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-bold rounded-xl shadow cursor-pointer flex items-center gap-1.5"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          Publish Internship
+                        </button>
+                      </div>
+                    </form>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
       </div>
