@@ -185,6 +185,17 @@ async def create_outbound_call(body: OutboundCallRequest, request: Request):
                 metadata=json.dumps(meta, ensure_ascii=False),
             )
         )
+        
+        # Dial the student's phone via SIP Trunk
+        await lk.sip.create_sip_participant(
+            lk_api.CreateSIPParticipantRequest(
+                sip_trunk_id=trunk_id,
+                sip_call_to=phone_e164,
+                room_name=room_name,
+                participant_identity=f"phone-{phone_e164}",
+                participant_name="Student",
+            )
+        )
     except Exception as e:
         logger.error("Failed to dispatch agent for outbound call: %s", e)
         raise HTTPException(status_code=502, detail="Failed to dispatch voice agent.")
