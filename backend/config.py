@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     # --- Gemini ---
     gemini_api_key: str = Field(..., description="Gemini API key")
-    gemini_model: str = Field("gemini-2.0-flash", description="Gemini generation model")
+    gemini_model: str = Field("gemini-3.6-flash", description="Gemini generation model")
     gemini_embedding_model: str = Field("gemini-embedding-001", description="Gemini embedding model")
 
     # --- Vector Database ---

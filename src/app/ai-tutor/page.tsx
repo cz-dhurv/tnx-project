@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   MessageSquareText,
   UploadCloud,
@@ -61,10 +63,7 @@ export default function AITutor() {
       id: "welcome",
       sender: "ai",
       text: "Hello! I'm your AI Campus Tutor. Upload a course syllabus, lecture slides, or PDF textbooks, or select a topic on the left to start our study session!",
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      time: "", // Fixed hydration mismatch: initialized empty, set in useEffect
     },
   ]);
   const [inputText, setInputText] = useState("");
@@ -90,6 +89,19 @@ export default function AITutor() {
 
   // Load documents on mount
   useEffect(() => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.id === "welcome"
+          ? {
+              ...m,
+              time: new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            }
+          : m
+      )
+    );
     loadDocuments();
   }, []);
 
@@ -624,11 +636,26 @@ export default function AITutor() {
                         ? "bg-red-500/10 text-foreground border-red-500/30"
                         : "bg-card text-foreground border-border/40"
                     )}
-                    style={{ whiteSpace: "pre-line" }}
                   >
-                    {msg.text}
+                    <ReactMarkdown 
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                        ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                        ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-2" {...props} />,
+                        li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                        strong: ({node, ...props}) => <strong className="font-semibold" {...props} />,
+                        em: ({node, ...props}) => <em className="italic" {...props} />,
+                        h1: ({node, ...props}) => <h1 className="text-lg font-bold mb-2 mt-3" {...props} />,
+                        h2: ({node, ...props}) => <h2 className="text-md font-bold mb-2 mt-3" {...props} />,
+                        h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2 mt-3" {...props} />,
+                        a: ({node, ...props}) => <a className="text-indigo-500 hover:underline" {...props} />,
+                      }}
+                    >
+                      {msg.text}
+                    </ReactMarkdown>
                     {msg.isStreaming && (
-                      <span className="inline-block w-1.5 h-4 bg-indigo-500 animate-pulse ml-0.5 rounded-sm" />
+                      <span className="inline-block w-1.5 h-4 bg-indigo-500 animate-pulse ml-1 rounded-sm align-middle" />
                     )}
                   </div>
 
