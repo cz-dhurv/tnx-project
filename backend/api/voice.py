@@ -177,23 +177,13 @@ async def create_outbound_call(body: OutboundCallRequest, request: Request):
         api_secret=livekit_api_secret,
     )
     try:
-        # Dispatch the voice agent into the room
+        # Dispatch the voice agent into the room.
+        # The agent worker will automatically pick up the metadata and dial the user via SIP.
         await lk.agent_dispatch.create_dispatch(
             lk_api.CreateAgentDispatchRequest(
                 agent_name="",
                 room=room_name,
                 metadata=json.dumps(meta, ensure_ascii=False),
-            )
-        )
-        
-        # Dial the student's phone via SIP Trunk
-        await lk.sip.create_sip_participant(
-            lk_api.CreateSIPParticipantRequest(
-                sip_trunk_id=trunk_id,
-                sip_call_to=phone_e164,
-                room_name=room_name,
-                participant_identity=f"phone-{phone_e164}",
-                participant_name="Student",
             )
         )
     except Exception as e:
