@@ -16,7 +16,6 @@ import {
   RoomEvent,
   Track,
   RemoteTrackPublication,
-  RemoteParticipant,
   ConnectionState,
   TranscriptionSegment,
 } from "livekit-client";
@@ -126,10 +125,10 @@ export function VoiceButton({
         RoomEvent.TranscriptionReceived,
         (
           segments: TranscriptionSegment[],
-          participant?: RemoteParticipant
+          participant?: any
         ) => {
           for (const seg of segments) {
-            const isAgent = participant !== undefined;
+            const isAgent = participant && participant.identity !== room.localParticipant.identity;
             addTranscript({
               speaker: isAgent ? "ai" : "user",
               text: seg.text,
@@ -153,7 +152,7 @@ export function VoiceButton({
         (
           track: any,
           publication: RemoteTrackPublication,
-          participant: RemoteParticipant
+          participant: any
         ) => {
           if (track.kind === Track.Kind.Audio) {
             // Attach audio element for playback
