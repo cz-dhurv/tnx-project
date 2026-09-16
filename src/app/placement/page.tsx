@@ -5,9 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Briefcase,
   Upload,
-  Bot,
-  User,
-  Send,
   CheckCircle2,
   FileCheck,
   Building,
@@ -20,22 +17,15 @@ import {
   FileText,
   Check,
   XCircle,
-  BarChart3,
   GitCompare,
-  Server,
-  Zap
+  Server
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import initialData from "@/lib/data/resume_matcher_data.json";
 import { Candidate, JobDescription, MatchResultItem } from "@/types/placement";
 
-interface Message {
-  sender: "interviewer" | "candidate";
-  text: string;
-}
-
 export default function PlacementHub() {
-  const [activeTab, setActiveTab] = useState<"resume" | "matcher" | "compare" | "interview" | "jobs">("resume");
+  const [activeTab, setActiveTab] = useState<"resume" | "matcher" | "compare" | "jobs">("resume");
 
   // --- Backend Status ---
   const [backendStatus, setBackendStatus] = useState<"checking" | "online" | "standby">("checking");
@@ -87,15 +77,6 @@ export default function PlacementHub() {
   const [candidateAId, setCandidateAId] = useState<string>(initialData.candidates[0].id);
   const [candidateBId, setCandidateBId] = useState<string>(initialData.candidates[1].id);
 
-  // --- Mock Interview State ---
-  const [selectedRole, setSelectedRole] = useState("Software Engineering Intern");
-  const [interviewStatus, setInterviewStatus] = useState<"idle" | "running" | "completed">("idle");
-  const [interviewMessages, setInterviewMessages] = useState<Message[]>([]);
-  const [interviewInput, setInterviewInput] = useState("");
-  const [questionCount, setQuestionCount] = useState(0);
-  const [isInterviewerThinking, setIsInterviewerThinking] = useState(false);
-  const interviewEndRef = useRef<HTMLDivElement>(null);
-
   // Check Python FastAPI backend connection on mount
   useEffect(() => {
     async function checkBackend() {
@@ -116,11 +97,6 @@ export default function PlacementHub() {
     }
     checkBackend();
   }, []);
-
-  // Auto-scroll interview
-  useEffect(() => {
-    interviewEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [interviewMessages, isInterviewerThinking]);
 
   // Handle Resume Upload & Evaluation
   const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,82 +184,7 @@ export default function PlacementHub() {
     }
   };
 
-  // Start Interview
-  const handleStartInterview = () => {
-    setInterviewStatus("running");
-    setQuestionCount(1);
-    setInterviewMessages([
-      {
-        sender: "interviewer",
-        text: `Welcome to your mock technical interview for the **${selectedRole}** role. Let's begin with your technical foundation. Can you walk me through an architectural challenge you faced in your recent project and how you resolved it?`,
-      },
-    ]);
-  };
 
-  const handleSendInterviewAnswer = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!interviewInput.trim()) return;
-
-    const candidateMsg: Message = {
-      sender: "candidate",
-      text: interviewInput.trim(),
-    };
-
-    setInterviewMessages((prev) => [...prev, candidateMsg]);
-    setInterviewInput("");
-    setIsInterviewerThinking(true);
-
-    setTimeout(() => {
-      setIsInterviewerThinking(false);
-      const nextCount = questionCount + 1;
-      setQuestionCount(nextCount);
-
-      if (nextCount > 3) {
-        setInterviewStatus("completed");
-        setInterviewMessages((prev) => [
-          ...prev,
-          {
-            sender: "interviewer",
-            text: `Outstanding effort! That concludes your technical simulation session.
-
-### Composite Score: 92/100
-- **Problem Formulation**: 95/100 – Crisp breakdown of system bottlenecks.
-- **Code & Design Depth**: 90/100 – Concrete understanding of concurrency and caching tradeoffs.
-- **Communication**: 92/100 – Concise, professional answers.
-
-**ATS Recommendation**: Ready for on-campus corporate technical rounds!`,
-          },
-        ]);
-      } else {
-        let questionText = "";
-        if (selectedRole.includes("Software") || selectedRole.includes("Frontend")) {
-          questionText =
-            nextCount === 2
-              ? "Great points on architectural separation. Now, how would you design a rate limiter to prevent API abuse in a high-throughput microservices architecture?"
-              : "Excellent analysis. Finally, how do you handle state consistency and database transactions across distributed services?";
-        } else {
-          questionText =
-            nextCount === 2
-              ? "Solid overview. How would you handle class imbalance and dataset drift when fine-tuning a frontier LLM on specialized campus notes?"
-              : "Very insightful. Finally, explain how you benchmark retrieval latency and token throughput when deploying a RAG vector database.";
-        }
-
-        setInterviewMessages((prev) => [
-          ...prev,
-          {
-            sender: "interviewer",
-            text: questionText,
-          },
-        ]);
-      }
-    }, 1400);
-  };
-
-  const handleResetInterview = () => {
-    setInterviewStatus("idle");
-    setInterviewMessages([]);
-    setQuestionCount(0);
-  };
 
   const currentJob = jobs.find((j) => j.id === selectedJobId) || jobs[0];
   const candidateA = candidates.find((c) => c.id === candidateAId) || candidates[0];
@@ -340,7 +241,6 @@ export default function PlacementHub() {
           { id: "resume", label: "Resume Reviewer & ATS", icon: FileCheck },
           { id: "matcher", label: "JD Matcher & Leaderboard", icon: Target },
           { id: "compare", label: "Candidate Comparison", icon: GitCompare },
-          { id: "interview", label: "Mock Interviewer", icon: Bot },
           { id: "jobs", label: "Campus Internships", icon: Building },
         ].map((tab) => {
           const TabIcon = tab.icon;
@@ -1007,149 +907,6 @@ export default function PlacementHub() {
           </div>
         )}
 
-        {/* ===================== TAB 4: MOCK INTERVIEWER ===================== */}
-        {activeTab === "interview" && (
-          <div className="flex flex-col lg:flex-row gap-8 min-h-[500px]">
-            {/* Left selector */}
-            <div className="w-full lg:w-72 p-6 rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm shadow-sm h-fit space-y-4">
-              <h3 className="text-sm font-bold text-foreground">Configure Mock Session</h3>
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-muted-foreground">Select Job Profile</label>
-                <select
-                  value={selectedRole}
-                  onChange={(e) => setSelectedRole(e.target.value)}
-                  disabled={interviewStatus === "running"}
-                  className="w-full bg-muted/40 text-xs rounded-xl px-3 py-2 border border-border/40 outline-none text-foreground"
-                >
-                  <option value="Software Engineering Intern">Software Engineering Intern</option>
-                  <option value="Frontend Infrastructure Intern">Frontend Infrastructure Intern</option>
-                  <option value="AI Research & Systems Intern">AI Research & Systems Intern</option>
-                </select>
-              </div>
-
-              {interviewStatus === "idle" ? (
-                <button
-                  onClick={handleStartInterview}
-                  className="w-full py-2.5 bg-primary text-primary-foreground hover:bg-primary/95 font-semibold text-xs rounded-xl transition-all shadow cursor-pointer flex items-center justify-center gap-1.5"
-                >
-                  <Zap className="w-3.5 h-3.5" />
-                  Start Interview Prep
-                </button>
-              ) : (
-                <button
-                  onClick={handleResetInterview}
-                  className="w-full py-2.5 bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20 font-semibold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                >
-                  Reset / Close Session
-                </button>
-              )}
-
-              <div className="p-3.5 bg-muted/30 border border-border/20 rounded-xl space-y-1">
-                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Rules</span>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  Session features 3 sequential technical questions. At the end, you&apos;ll receive a detailed critique report and composite grade score.
-                </p>
-              </div>
-            </div>
-
-            {/* Interview Chat Interface */}
-            <div className="flex-1 flex flex-col rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm shadow-sm overflow-hidden min-h-[400px]">
-              {interviewStatus !== "idle" ? (
-                <>
-                  {/* Chat header */}
-                  <div className="px-5 py-3 border-b border-border/40 bg-card flex items-center justify-between">
-                    <span className="text-xs font-bold text-foreground">Interactive Mock Board</span>
-                    <span className="text-[10px] bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 px-2 py-0.5 rounded-full font-bold">
-                      Q {Math.min(questionCount, 3)} of 3
-                    </span>
-                  </div>
-
-                  {/* Messages */}
-                  <div className="flex-1 overflow-y-auto p-5 space-y-4 max-h-[360px]">
-                    {interviewMessages.map((msg, idx) => (
-                      <div
-                        key={idx}
-                        className={cn(
-                          "flex gap-3 max-w-[85%] md:max-w-[75%]",
-                          msg.sender === "candidate" ? "ml-auto flex-row-reverse" : ""
-                        )}
-                      >
-                        <div
-                          className={cn(
-                            "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center border",
-                            msg.sender === "candidate"
-                              ? "bg-muted/40 border-border"
-                              : "bg-indigo-500/10 border-indigo-500/20 text-indigo-400"
-                          )}
-                        >
-                          {msg.sender === "candidate" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                        </div>
-                        <div className="space-y-0.5">
-                          <div
-                            className={cn(
-                              "p-3.5 rounded-2xl text-xs leading-relaxed border",
-                              msg.sender === "candidate"
-                                ? "bg-primary text-primary-foreground border-primary"
-                                : "bg-card text-foreground border-border/40"
-                            )}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {msg.text}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-
-                    {isInterviewerThinking && (
-                      <div className="flex gap-3 max-w-[75%]">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
-                          <Bot className="w-4 h-4" />
-                        </div>
-                        <div className="flex items-center gap-1.5 p-3 bg-card border border-border/40 rounded-2xl">
-                          <Loader2 className="w-3 h-3 text-indigo-500 animate-spin" />
-                          <span className="text-[10px] text-muted-foreground font-semibold">
-                            Interviewer evaluates technical depth...
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                    <div ref={interviewEndRef} />
-                  </div>
-
-                  {/* Input container */}
-                  {interviewStatus === "running" && (
-                    <div className="p-4 border-t border-border/40 bg-card">
-                      <form onSubmit={handleSendInterviewAnswer} className="flex gap-2">
-                        <input
-                          type="text"
-                          value={interviewInput}
-                          onChange={(e) => setInterviewInput(e.target.value)}
-                          placeholder="Type your response here..."
-                          className="flex-1 bg-muted/40 text-xs rounded-xl px-4 py-2.5 border border-border/40 focus:border-indigo-500/40 focus:ring-2 focus:ring-indigo-500/10 transition-all outline-none text-foreground"
-                        />
-                        <button
-                          type="submit"
-                          disabled={!interviewInput.trim()}
-                          className="px-4 bg-primary text-primary-foreground hover:bg-primary/95 disabled:opacity-50 font-semibold text-xs rounded-xl transition-all shadow flex items-center justify-center cursor-pointer"
-                        >
-                          <Send className="w-4 h-4" />
-                        </button>
-                      </form>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="flex-1 flex flex-col items-center justify-center text-center p-8 text-muted-foreground py-16">
-                  <Bot className="w-12 h-12 text-indigo-500/45 mb-2 animate-bounce" />
-                  <h3 className="text-sm font-bold text-foreground">Awaiting Interviewee</h3>
-                  <p className="text-xs text-muted-foreground max-w-xs mx-auto mt-1 leading-normal">
-                    Select a target job profile on the left and click start to initiate a live simulation.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
 
         {/* ===================== TAB 5: CAMPUS INTERNSHIPS ===================== */}
         {activeTab === "jobs" && (
