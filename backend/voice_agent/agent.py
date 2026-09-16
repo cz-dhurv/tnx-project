@@ -116,16 +116,24 @@ async def campus_tutor_session(ctx: JobContext) -> None:
         gemini_model,
     )
 
-    # Parse room metadata — set by the API when dispatching an outbound call
-    room_metadata = ctx.room.metadata or ""
+    # Read dispatch metadata (set by CreateAgentDispatchRequest.metadata in the API)
+    # Note: ctx.job.metadata is the dispatch-level metadata, ctx.room.metadata is room-level
+    job_metadata = ""
+    try:
+        job_metadata = ctx.job.metadata or ""
+    except AttributeError:
+        job_metadata = ctx.room.metadata or ""
+
     is_outbound_call = False
     call_meta = {}
-    if room_metadata:
+    if job_metadata:
         try:
-            call_meta = json.loads(room_metadata)
+            call_meta = json.loads(job_metadata)
             is_outbound_call = bool(call_meta.get("phone_number"))
+            logger.info("Outbound call metadata: phone=%s topic=%s",
+                call_meta.get("phone_number"), call_meta.get("topic"))
         except (json.JSONDecodeError, AttributeError):
-            pass
+            logger.warning("Failed to parse job metadata: %s", job_metadata)
 
     session = AgentSession(
         stt=deepgram.STT(
