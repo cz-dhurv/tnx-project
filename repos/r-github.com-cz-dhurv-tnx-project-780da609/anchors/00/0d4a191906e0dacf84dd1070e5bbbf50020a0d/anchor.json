@@ -1,0 +1,53 @@
+{
+  "anchor_schema_version": 1,
+  "oobo_version": "2.0.0",
+  "commit_hash": "000d4a191906e0dacf84dd1070e5bbbf50020a0d",
+  "branch": "feature/voice-assistant",
+  "author": "cz-dhurv <dhruvkr209@example.com>",
+  "author_type": "automated",
+  "contributors": [
+    {
+      "name": "cz-dhurv <dhruvkr209@example.com>",
+      "role": "human"
+    }
+  ],
+  "committed_at": 1789548871,
+  "message": "feat(voice): integrate Twilio SIP for outbound calling",
+  "files_changed": [
+    "backend/.env.example",
+    "backend/config.py",
+    "backend/scripts/setup_outbound_trunk.py"
+  ],
+  "added": 116,
+  "deleted": 1,
+  "file_changes": [
+    {
+      "path": "backend/.env.example",
+      "added": 42,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/config.py",
+      "added": 7,
+      "deleted": 1,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/scripts/setup_outbound_trunk.py",
+      "added": 67,
+      "deleted": 0,
+      "attribution": "human"
+    }
+  ],
+  "ai_added": 0,
+  "ai_deleted": 0,
+  "human_added": 116,
+  "human_deleted": 1,
+  "ai_percentage": 0.0,
+  "session_ids": [],
+  "transparency_mode": "on",
+  "coverage": {
+    "recorded_at": 1789548882
+  }
+}
