@@ -41,8 +41,14 @@ class Settings(BaseSettings):
     # --- Voice / Murf TTS ---
     murf_api_key: str = Field("", description="Murf API key")
 
-    # --- Voice / Outbound Calling ---
+    # --- Voice / Outbound Calling (Twilio SIP) ---
     livekit_sip_outbound_trunk_id: str = Field("", description="LiveKit SIP outbound trunk ID")
+    twilio_account_sid: str = Field("", description="Twilio account SID")
+    twilio_auth_token: str = Field("", description="Twilio auth token")
+    twilio_phone_number: str = Field("", description="Twilio phone number (E.164)")
+    twilio_sip_term_uri: str = Field("", description="Twilio SIP termination URI")
+    twilio_sip_username: str = Field("", description="Twilio SIP credential username")
+    twilio_sip_password: str = Field("", description="Twilio SIP credential password")
 
     # --- Server ---
     backend_port: int = Field(8000, description="Backend server port")
