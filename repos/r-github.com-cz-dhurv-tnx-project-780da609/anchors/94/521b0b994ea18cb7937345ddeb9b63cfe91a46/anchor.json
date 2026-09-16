@@ -1,0 +1,494 @@
+{
+  "anchor_schema_version": 1,
+  "oobo_version": "2.0.0",
+  "commit_hash": "94521b0b994ea18cb7937345ddeb9b63cfe91a46",
+  "branch": "feature/backend-rag",
+  "author": "cz-dhurv <dhruvkr209@example.com>",
+  "author_type": "automated",
+  "contributors": [
+    {
+      "name": "cz-dhurv <dhruvkr209@example.com>",
+      "role": "human"
+    }
+  ],
+  "committed_at": 1789541557,
+  "message": "Rag+AI: (Incomplete)",
+  "files_changed": [
+    ".gitignore",
+    ".oobo/.gitignore",
+    ".oobo/config",
+    "backend/__pycache__/config.cpython-312.pyc",
+    "backend/__pycache__/main.cpython-312.pyc",
+    "backend/api/__init__.py",
+    "backend/api/__pycache__/__init__.cpython-312.pyc",
+    "backend/api/__pycache__/chat.cpython-312.pyc",
+    "backend/api/__pycache__/documents.cpython-312.pyc",
+    "backend/api/__pycache__/health.cpython-312.pyc",
+    "backend/api/chat.py",
+    "backend/api/documents.py",
+    "backend/api/health.py",
+    "backend/config.py",
+    "backend/data/campus_ai.db",
+    "backend/main.py",
+    "backend/models/__init__.py",
+    "backend/models/__pycache__/__init__.cpython-312.pyc",
+    "backend/models/__pycache__/database.cpython-312.pyc",
+    "backend/models/__pycache__/schemas.cpython-312.pyc",
+    "backend/models/database.py",
+    "backend/models/schemas.py",
+    "backend/observability/__init__.py",
+    "backend/observability/__pycache__/__init__.cpython-312.pyc",
+    "backend/observability/__pycache__/logger.cpython-312.pyc",
+    "backend/observability/logger.py",
+    "backend/prompts/__init__.py",
+    "backend/prompts/__pycache__/__init__.cpython-312.pyc",
+    "backend/prompts/__pycache__/system.cpython-312.pyc",
+    "backend/prompts/system.py",
+    "backend/providers/__init__.py",
+    "backend/providers/__pycache__/__init__.cpython-312.pyc",
+    "backend/providers/__pycache__/base.cpython-312.pyc",
+    "backend/providers/__pycache__/gemini.cpython-312.pyc",
+    "backend/providers/base.py",
+    "backend/providers/gemini.py",
+    "backend/repositories/__init__.py",
+    "backend/repositories/__pycache__/__init__.cpython-312.pyc",
+    "backend/repositories/__pycache__/db_repo.cpython-312.pyc",
+    "backend/repositories/__pycache__/vector_repo.cpython-312.pyc",
+    "backend/repositories/db_repo.py",
+    "backend/repositories/vector_repo.py",
+    "backend/requirements.txt",
+    "backend/security/__init__.py",
+    "backend/security/__pycache__/__init__.cpython-312.pyc",
+    "backend/security/__pycache__/validation.cpython-312.pyc",
+    "backend/security/validation.py",
+    "backend/services/__init__.py",
+    "backend/services/__pycache__/__init__.cpython-312.pyc",
+    "backend/services/__pycache__/chat_service.cpython-312.pyc",
+    "backend/services/__pycache__/chunking_service.cpython-312.pyc",
+    "backend/services/__pycache__/context_builder.cpython-312.pyc",
+    "backend/services/__pycache__/document_service.cpython-312.pyc",
+    "backend/services/__pycache__/query_processor.cpython-312.pyc",
+    "backend/services/chat_service.py",
+    "backend/services/chunking_service.py",
+    "backend/services/context_builder.py",
+    "backend/services/document_service.py",
+    "backend/services/query_processor.py",
+    "backend/storage/0ef0a86d-9931-4a65-85b2-197060c8583f_sample_leave_policy.txt",
+    "backend/tests/__init__.py",
+    "backend/tests/sample_leave_policy.txt",
+    "docker-compose.yml",
+    "next.config.ts",
+    "package-lock.json",
+    "src/app/ai-tutor/page.tsx"
+  ],
+  "added": 3250,
+  "deleted": 271,
+  "file_changes": [
+    {
+      "path": ".gitignore",
+      "added": 3,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": ".oobo/.gitignore",
+      "added": 6,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": ".oobo/config",
+      "added": 8,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/__pycache__/config.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/__pycache__/main.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/chat.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/documents.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/__pycache__/health.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/chat.py",
+      "added": 180,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/documents.py",
+      "added": 139,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/api/health.py",
+      "added": 56,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/config.py",
+      "added": 58,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/data/campus_ai.db",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/main.py",
+      "added": 111,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__pycache__/database.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/__pycache__/schemas.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/database.py",
+      "added": 81,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/models/schemas.py",
+      "added": 152,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/observability/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/observability/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/observability/__pycache__/logger.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/observability/logger.py",
+      "added": 49,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/prompts/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/prompts/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/prompts/__pycache__/system.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/prompts/system.py",
+      "added": 110,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__pycache__/base.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/__pycache__/gemini.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/base.py",
+      "added": 47,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/providers/gemini.py",
+      "added": 108,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__pycache__/db_repo.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/__pycache__/vector_repo.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/db_repo.py",
+      "added": 245,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/repositories/vector_repo.py",
+      "added": 264,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "added": 25,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/security/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/security/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/security/__pycache__/validation.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/security/validation.py",
+      "added": 92,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/__init__.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/chat_service.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/chunking_service.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/context_builder.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/document_service.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/__pycache__/query_processor.cpython-312.pyc",
+      "added": 0,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/chat_service.py",
+      "added": 270,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/chunking_service.py",
+      "added": 192,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/context_builder.py",
+      "added": 128,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/document_service.py",
+      "added": 237,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/services/query_processor.py",
+      "added": 89,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/storage/0ef0a86d-9931-4a65-85b2-197060c8583f_sample_leave_policy.txt",
+      "added": 16,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/tests/__init__.py",
+      "added": 1,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "backend/tests/sample_leave_policy.txt",
+      "added": 16,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "docker-compose.yml",
+      "added": 13,
+      "deleted": 0,
+      "attribution": "human"
+    },
+    {
+      "path": "next.config.ts",
+      "added": 8,
+      "deleted": 1,
+      "attribution": "human"
+    },
+    {
+      "path": "package-lock.json",
+      "added": 43,
+      "deleted": 141,
+      "attribution": "human"
+    },
+    {
+      "path": "src/app/ai-tutor/page.tsx",
+      "added": 495,
+      "deleted": 129,
+      "attribution": "human"
+    }
+  ],
+  "ai_added": 0,
+  "ai_deleted": 0,
+  "human_added": 3250,
+  "human_deleted": 271,
+  "ai_percentage": 0.0,
+  "session_ids": [],
+  "transparency_mode": "on",
+  "coverage": {
+    "recorded_at": 1789543081
+  }
+}
