@@ -1,0 +1,39 @@
+{
+  "anchor_schema_version": 1,
+  "oobo_version": "2.0.0",
+  "commit_hash": "007c2eef391350335a526516f4e422e1409d26c0",
+  "branch": "feature/voice-assistant",
+  "author": "cz-dhurv <dhruvkr209@example.com>",
+  "author_type": "automated",
+  "contributors": [
+    {
+      "name": "cz-dhurv <dhruvkr209@example.com>",
+      "role": "human"
+    }
+  ],
+  "committed_at": 1789549356,
+  "message": "final commit",
+  "files_changed": [
+    "backend/api/voice.py"
+  ],
+  "added": 11,
+  "deleted": 0,
+  "file_changes": [
+    {
+      "path": "backend/api/voice.py",
+      "added": 11,
+      "deleted": 0,
+      "attribution": "human"
+    }
+  ],
+  "ai_added": 0,
+  "ai_deleted": 0,
+  "human_added": 11,
+  "human_deleted": 0,
+  "ai_percentage": 0.0,
+  "session_ids": [],
+  "transparency_mode": "on",
+  "coverage": {
+    "recorded_at": 1789550200
+  }
+}
